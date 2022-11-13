@@ -22,7 +22,7 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
         try:
             todayRecord = getTodayRecord()
-            self.wfile.write(todayRecord.encode())
+            self.wfile.write(todayRecord.encode('utf-8'))
         except requests.exceptions.RequestException as e:
             self.wfile.write("failure".encode())        
         return
