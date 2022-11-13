@@ -22,12 +22,14 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path
         path = path.replace("'", '"')
-        token_reg = re.compile(r'token="(.*?)"')
         user_reg = re.compile(r'user="(.*?)"')
         user = user_reg.findall(path)[0]
+        self.send_response(200)
+        self.send_header('Content-type', 'text/plain')
+        self.end_headers()
         try:
             todayRecordName, difficulty, acRate = getTodayRecord()
-            displaystr = "User: " + user +"Problem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
+            displaystr = "User: " + user + "\nProblem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
             self.wfile.write(displaystr.encode())
         except requests.exceptions.RequestException as e:
             self.wfile.write("failure".encode())        
