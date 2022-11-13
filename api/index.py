@@ -1,9 +1,6 @@
 from http.server import BaseHTTPRequestHandler
-from datetime import datetime
 import requests
 import json
-import smtplib
-from email.mime.text import MIMEText
 
 base_url = 'https://leetcode-cn.com'
 
@@ -27,5 +24,5 @@ class handler(BaseHTTPRequestHandler):
             todayRecord = getTodayRecord()
             self.wfile.write(todayRecord.encode())
         except requests.exceptions.RequestException as e:
-            self.wfile.write("failure".encode)        
+            self.wfile.write("failure".encode())        
         return
