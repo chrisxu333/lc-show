@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 import requests
+import re
 import json
 
 base_url = 'https://leetcode-cn.com'
@@ -18,14 +19,15 @@ def getTodayRecord():
         raise SystemExit(e) 
  
 class handler(BaseHTTPRequestHandler):
- 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
+        path = self.path
+        path = path.replace("'", '"')
+        token_reg = re.compile(r'token="(.*?)"')
+        user_reg = re.compile(r'user="(.*?)"')
+        user = user_reg.findall(path)[0]
         try:
             todayRecordName, difficulty, acRate = getTodayRecord()
-            displaystr = "Problem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
+            displaystr = "User: " + user +"Problem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
             self.wfile.write(displaystr.encode())
         except requests.exceptions.RequestException as e:
             self.wfile.write("failure".encode())        
