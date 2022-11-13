@@ -14,7 +14,7 @@ def getTodayRecord():
         })
         leetcodeTitle = json.loads(response.text).get('data').get('todayRecord')[0].get("question").get('titleCn')
         return leetcodeTitle
-    except requests.exceptions.RequestException as e:  # This is the correct syntax
+    except requests.exceptions.RequestException as e:
         raise SystemExit(e) 
  
 class handler(BaseHTTPRequestHandler):
@@ -23,7 +23,9 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
-        todayRecord = getTodayRecord()
-        self.wfile.write(todayRecord.encode())
-        
+        try:
+            todayRecord = getTodayRecord()
+            self.wfile.write(todayRecord.encode())
+        except requests.exceptions.RequestException as e:
+            self.wfile.write("failure".encode)        
         return
