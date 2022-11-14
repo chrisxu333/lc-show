@@ -69,7 +69,7 @@ class handler(BaseHTTPRequestHandler):
         self.end_headers()
 
         # login section
-        token = login(user, pwd)
+        token = login()
         try:
             todayRecordName, difficulty, acRate = getTodayRecord()
             displaystr = "Token: " + token + "\nProblem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
