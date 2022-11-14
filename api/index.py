@@ -34,9 +34,10 @@ def login():
     print('Login to leetcode...')
 
     session = requests.Session()
-
-    cookies = session.get(login_url).cookies
-    return cookies
+    session.get(login_url)
+    cookie = session.cookies
+    a = cookie.get_dict()
+    return a
 
 def getTodayRecord():
     try:
@@ -67,7 +68,7 @@ class handler(BaseHTTPRequestHandler):
         token = login()
         try:
             todayRecordName, difficulty, acRate = getTodayRecord()
-            displaystr = "Token: " + token + "\nProblem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
+            displaystr = "Token: " + str(token) + "\nProblem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
             self.wfile.write(displaystr.encode())
         except requests.exceptions.RequestException as e:
             self.wfile.write("failure".encode())        
