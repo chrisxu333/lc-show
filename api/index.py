@@ -53,10 +53,16 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
-        try:
-            todayRecordName, difficulty, acRate = getTodayRecord()
-            displaystr = "User: " + user + "pwd:" + pwd + "\nProblem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
-            self.wfile.write(displaystr.encode())
-        except requests.exceptions.RequestException as e:
-            self.wfile.write("failure".encode())        
+
+        # login section
+        islogin = login(user, pwd)
+        if not islogin:
+            self.wfile.write("fail to login".encode()) 
+        else:
+            try:
+                todayRecordName, difficulty, acRate = getTodayRecord()
+                displaystr = "Problem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
+                self.wfile.write(displaystr.encode())
+            except requests.exceptions.RequestException as e:
+                self.wfile.write("failure".encode())        
         return
