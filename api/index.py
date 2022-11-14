@@ -43,7 +43,7 @@ class handler(BaseHTTPRequestHandler):
             # todayRecordName, difficulty, acRate = getTodayRecord()
             # displaystr = "Problem: " + todayRecordName + "\nDifficulty: " + difficulty + "\nAccept Rate: " + str(acRate)
             displaystr = getPersonalProgress(user)
-            self.wfile.write(displaystr.encode())
+            self.wfile.write(str(displaystr).encode())
         except requests.exceptions.RequestException as e:
             self.wfile.write("failure".encode())        
         return
