@@ -23,7 +23,7 @@ def getTodayRecord():
 
 def getPersonalProgress(username):
     response = requests.post(base_url + "/graphql", json={
-        "query":"\n    query userQuestionProgress($userSlug: String!) {\n  userProfileUserQuestionProgress(userSlug: $userSlug) {\n    numAcceptedQuestions {\n      difficulty\n      count\n    }\n    numFailedQuestions {\n      difficulty\n      count\n    }\n    numUntouchedQuestions {\n      difficulty\n      count\n    }\n  }\n}\n    ","variables":{"userSlug":username}
+        "query":"\n    query userQuestionProgress($userSlug: String!) {\n  userProfileUserQuestionProgress(userSlug: {}) {\n    numAcceptedQuestions {\n      difficulty\n      count\n    }\n    numFailedQuestions {\n      difficulty\n      count\n    }\n    numUntouchedQuestions {\n      difficulty\n      count\n    }\n  }\n}\n    ".format(username)
     })
     data = json.loads(response.text).get('data')
     easy_count = data.get('userProfileUserQuestionProgress').get("numAcceptedQuestions")[0].get('count')
