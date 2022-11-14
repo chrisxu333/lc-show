@@ -36,11 +36,7 @@ def login():
     session = requests.Session()
 
     cookies = session.get(login_url).cookies
-    for cookie in cookies:
-        if cookie.name == 'csrftoken':
-            csrftoken = cookie.value
-            return csrftoken
-    return ""
+    return cookies
 
 def getTodayRecord():
     try:
