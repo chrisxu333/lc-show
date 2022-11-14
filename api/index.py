@@ -35,13 +35,12 @@ def login():
 
     session = requests.Session()
 
-    response = session.request('GET', login_url)
-    if response.status_code != 200 or not session.cookies['csrftoken']:
-        print('Error in get login page')
-        print(response.status_code)
-        print(response.text)
-        return
-    return session.cookies['csrftoken']
+    cookies = session.get(login_url).cookies
+    for cookie in cookies:
+        if cookie.name == 'csrftoken':
+            csrftoken = cookie.value
+            return csrftoken
+    return ""
 
 def getTodayRecord():
     try:
